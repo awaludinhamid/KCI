@@ -1,0 +1,55 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 12, 2016, 9:45:41 AM
+    Author     : awal
+*/
+
+div#side-menu {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  background-color: #26303a;
+  padding: 10px;
+  text-align: center;
+  width: 140px;
+  height: 550px
+}
+div#side-menu>div {
+  display: none;
+  border: white 1px solid;
+  border-radius: 5px;
+  box-shadow:2px 2px 2px #ccc;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+div#side-menu>div>img {
+  height: 70px;
+}
+div#side-menu>div#cpts>img, div#side-menu>div#help>img {
+  width: 70px;
+}
+div#side-menu>div#report>img {
+  width: 51.89px;
+}
+div#side-menu>div#org-chart>img {
+  width: 83.53px;
+}
+div#side-menu>div#username>img {
+  width: 55.76px;
+}
+div#side-menu>div#param-audit>span {
+  font-size: 12px;
+}
+div#side-menu>div>span {
+  color: white;
+}
+div#side-menu>div:hover {
+  cursor: pointer;
+  transition: transform 300ms;
+  transform: translate(4px,4px);
+  box-shadow: none;
+}
