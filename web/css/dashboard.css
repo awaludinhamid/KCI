@@ -8,21 +8,43 @@ and open the template in the editor.
     Author     : awal
 */
 
+/* * * * G E N E R AL * * * */ 
 /*html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
       #map{ margin: 0; padding: 0}
 
       /* center the image in the popup *
       .esriViewPopup .gallery { margin: 0 auto !important; }
       .container { float: right;}*/
+body {  
+  font-family: "Century Gothic",sans-serif;
+  color: #fafafa;
+}
+
 .container {
   margin-top: 100px;
   margin-left: 160px;
 }
 
+.scrollable-menu {
+  height: auto;
+  max-height: 50vh;
+  overflow-x: hidden;
+}
+
+.refresh-btn {
+  color: green;
+}
+
+span.close-btn {
+  cursor: pointer;
+  color: red;
+  position: absolute;
+  z-index: 10;
+}
+
 .row>div>div {
   width: 570px;
   margin-bottom: 10px;
-  color: white;
 }
 .row>div>div>div.content-dashboard  {
   background-color: #26303a;  
@@ -37,26 +59,40 @@ and open the template in the editor.
 .row>div>div>div.title-dashboard>span {
   font-size: 20px;
 }
-.row>div>div>div.title-dashboard>img {
+.row>div>div>div.title-dashboard>img, .row>div>div>div.title-dashboard>div>img {
   width: 25px;
   height: 25px;
 }
-.row>div>div>div.title-dashboard>img:hover {  
+.row>div>div>div.title-dashboard>img:hover, .row>div>div>div.title-dashboard>div>img:hover {  
   cursor: pointer;
   transform: translate(2px,2px);
 }
 .row>div>div>div.title-dashboard>img:first-child {
   float: left;
 }
-.row>div>div>div.title-dashboard>img:last-child {
+.row>div>div>div.title-dashboard>img:last-child, .row>div>div>div.title-dashboard>div>img {
   float: right;
 }
+.row>div>div>div.title-dashboard>div.dropdown {
+  display: inline;
+  float: right;
+}
+.row>div>div>div.title-dashboard>div.dropdown>ul {
+  background-color: #26303a;
+  opacity: 0.8;
+}
+.row>div>div>div.title-dashboard>div.dropdown>ul>li>a>img {
+  width: 35px;
+  height: 35px;  
+}
 
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * F I L T E R * * * */
 div#filter {
   position: absolute;
   top: 70px;
   left: 180px;
-  color: #fafafa;
   font-size: 14px;
   display: inline;
   width: 100%;
@@ -68,6 +104,7 @@ div#filter>div {
 div#filter>div>span {
   border: #ff4422 solid 1px;
   padding: 5px;
+  padding-left: 10px;
   cursor: pointer;
 }
 div#filter>div>span>span {
@@ -84,54 +121,208 @@ div#filter>div>ul>li:hover {
   background-color: #229999;
 }
 
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * M A P * * * */
 div#map {
   background-color: rgb(182,199,214);
   opacity: 0.8;
 }
+div#map-title>div.dropdown>ul>li:nth-child(1)>a>span {
+  color: #666666;
+}
+div#map-title>div.dropdown>ul>li:nth-child(2)>a>span {
+  color: green;
+}
+div#map-title>div.dropdown>ul>li:nth-child(3)>a>span {
+  color: orange;
+}
+div#map-title>div.dropdown>ul>li:nth-child(4)>a>span {
+  color: red;
+}
 
-div#gauge>svg:hover, div#parameter>ul>li>div {
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * G A U G E * * * */
+div#gauge>svg>g>g:hover {
   cursor: pointer;
 }
 div#gauge>img {
+  position: absolute;
   margin: 10px;
 }
-div#gauge>img:first-child {
+div#gauge>img:nth-child(1) {
   width: 190px;
   height: 190px;
 }
 div#gauge>img:nth-child(2) {
   width: 160px;
   height: 160px;
+  top: 60px;
+  left: 240px;
 }
-div#gauge>img:last-child {
+div#gauge>img:nth-child(3) {
   width: 130px;
   height: 130px;
+  top: 75px;
+  left: 430px;
+}
+div#gauge>svg {
+  height: 210px;
+  width: 570px;
+  font-size: 12px;
+  transform: translate(13px,18px);
+}
+div#gauge>svg>g>g>g>g>text {
+  font-size: 14px;
+  fill: white;
 }
 
+div#gauge-detail {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: -200px;
+  padding: 25px;
+  background-color: #001018;
+  opacity: 0.7;
+  display: none;
+  border: #11aa77 solid 2px;
+  z-index: 15;  
+}
+div#gauge-detail>div#kci-detail {
+  width: 600px;
+  height: 350px;
+  overflow-y: auto;
+}
+div#gauge-detail>div#kci-parent {
+  text-align: center;
+}
+div#gauge-detail>span.close-btn {
+  right: 0;
+  transform: scale(2) translate(-25%,25%);
+}
+div#gauge-detail>div>table>tbody>tr>td, div#gauge-detail>div>span {
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * P A R A M E T E R * * * */
+div#parameter {
+   overflow-y: scroll;
+   font-size: 16px;
+}
+div#parameter>ul>li:nth-child(odd) {
+  margin-top: 10px;
+}
+div#parameter>ul>li>div:hover, div#parameter>ul>li>span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * C H A R T * * * */
 div#chart-trend>svg>text {
-    font: 12px sans-serif;
+  font: 12px sans-serif;
 }
 div#chart-trend>svg {
-    display: block;
+  display: block;
 }
 div#chart-trend, div#chart-trend>svg {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+}
+div#chart-trend .nv-axis.nv-x .tick line {
+  display:none;
 }
 
-.scrollable-menu {
-  height: auto;
-  max-height: 80vh;
-  overflow-x: hidden;
-}
+/* * * * * * * * * * * * * * * * * */
 
-.modal-content {
+/* * * * M O D A L * * * */
+
+div#mdl-dashboard>div>div.modal-content {
   color: red;
   background-color: rgba(0,16,24,0.9);
 }
+div#mdl-dashboard>div>div.modal-content>div>button, div#mdl-kci-report>div>div.modal-content>div.modal-header>button {
+  color: red;
+  font-size: 40px;
+}
 
-.nv-axis.nv-x .tick line {
-        display:none;
-    }
+div#mdl-kci-report>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+  font-size: 17px;
+}
+div#mdl-kci-report>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-kci-report>div>div.modal-content>div.modal-header>h3>img {
+  width: 25.95px;
+  height: 35px;
+  float: left;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td {
+  width: 220px;
+  height: 50px;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:nth-child(3), div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:nth-child(4) {
+  display: none;
+}
+div#mdl-kci-report>div>div.modal-content>div.modal-footer {
+  text-align: center;
+}
+div#mdl-kci-report>div>div.modal-content>div.modal-footer>button {
+  width: 100px;
+  font-size: 17px;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td>div>span {
+  border: #ff4422 solid 1px;
+  padding: 5px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td>div>span>span {
+  color: #229999;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td>div>ul {
+  background-color: #26303a;
+  border: #ff4422 solid 1px;
+  padding: 5px;
+  opacity: 0.9;
+}
+div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td>div>ul>li:hover {
+  cursor: pointer;
+  background-color: #229999;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * O T H E R S * * * */
+    
+.div-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #001018;
+  opacity: 0.6;
+  z-index: 5;
+  display: none;
+}
+
+div#custom-zoom-btn {
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  z-index: 5;
+}

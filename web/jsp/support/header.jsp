@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../../css/header.css"/>
     <script src="../../jQuery/js/jquery.min.js"></script>
     <script src="../../jQuery/js/jquery-ui.min.js"></script>
+    <script src="../../jQuery-Keyframes/js/jquery.keyframes.min.js"></script>
     <script src="../../bootstrap/js/bootstrap.min.js"></script>
     <script src="../../js/header.js"></script>
     <title>FIFGROUP KCI</title>

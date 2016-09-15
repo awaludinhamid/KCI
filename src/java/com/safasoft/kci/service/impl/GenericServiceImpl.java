@@ -6,7 +6,9 @@
 
 package com.safasoft.kci.service.impl;
 
+import com.safasoft.kci.bean.support.KciGaugeBean;
 import com.safasoft.kci.bean.support.ListBean;
+import com.safasoft.kci.bean.support.ListValueBean;
 import com.safasoft.kci.bean.support.MapBean;
 import com.safasoft.kci.bean.support.ParameterBean;
 import com.safasoft.kci.dao.GenericDAO;
@@ -53,8 +55,8 @@ public class GenericServiceImpl implements GenericService {
   }
 
   @Override
-  public List<MapBean> getMapBranch() {
-    return genericDAO.getMapBranch();
+  public List<MapBean> getMapBranch(int gradeNum, String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId) {
+    return genericDAO.getMapBranch(gradeNum, periode, coyId, bussUnit, areaId, officeId, deptId);
   }
 
   @Override
@@ -63,13 +65,33 @@ public class GenericServiceImpl implements GenericService {
   }
 
   @Override
-  public List<ParameterBean> getParmeters(String deptId) {
-    return genericDAO.getParmeters(deptId);
+  public List<ParameterBean> getParameters(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId) {
+    return genericDAO.getParameters(periode, coyId, bussUnit, areaId, officeId, deptId);
   }
 
   @Override
   public List<ListBean> getAllBussUnits() {
     return genericDAO.getAllBussUnits();
+  }
+
+  @Override
+  public KciGaugeBean getKciGauge(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId) {
+    return genericDAO.getKciGauge(periode, coyId, bussUnit, areaId, officeId, deptId);
+  }
+
+  @Override
+  public List<ListValueBean> getKciAreas(String periode, String coyId, String bussUnit, String deptId) {
+    return genericDAO.getKciAreas(periode, coyId, bussUnit, deptId);
+  }
+
+  @Override
+  public List<ListValueBean> getKciBranches(String periode, String coyId, String bussUnit, String areaId, String deptId) {
+    return genericDAO.getKciBranches(periode, coyId, bussUnit, areaId, deptId);
+  }
+
+  @Override
+  public List<ListValueBean> getKciDepts(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId) {
+    return genericDAO.getKciDepts(periode, coyId, bussUnit, areaId, officeId, deptId);
   }
   
 }

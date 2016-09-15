@@ -16,7 +16,8 @@ div#side-menu {
   padding: 10px;
   text-align: center;
   width: 140px;
-  height: 550px
+  height: 550px;
+  border: #11aa77 solid 2px;
 }
 div#side-menu>div {
   display: none;

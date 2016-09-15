@@ -29,6 +29,14 @@ public class ParameterBean implements Serializable {
   private int measurementP2;
   @Column(name="MEASUREMENT_P3")
   private int measurementP3;
+  @Column(name="COUNT_TOTAL")
+  private int countTotal;
+  @Column(name="PERSEN_MEASUREMENT_P1")
+  private double persenMeasurementP1;
+  @Column(name="PERSEN_MEASUREMENT_P2")
+  private double persenMeasurementP2;
+  @Column(name="PERSEN_MEASUREMENT_P3")
+  private double persenMeasurementP3;
 
   /**
    * @return the parameterId
@@ -98,5 +106,61 @@ public class ParameterBean implements Serializable {
    */
   public void setMeasurementP3(int measurementP3) {
     this.measurementP3 = measurementP3;
+  }
+
+  /**
+   * @return the countTotal
+   */
+  public int getCountTotal() {
+    return countTotal;
+  }
+
+  /**
+   * @param countTotal the countTotal to set
+   */
+  public void setCountTotal(int countTotal) {
+    this.countTotal = countTotal;
+  }
+
+  /**
+   * @return the persenMeasurementP1
+   */
+  public double getPersenMeasurementP1() {
+    return persenMeasurementP1;
+  }
+
+  /**
+   * @param persenMeasurementP1 the persenMeasurementP1 to set
+   */
+  public void setPersenMeasurementP1(double persenMeasurementP1) {
+    this.persenMeasurementP1 = persenMeasurementP1;
+  }
+
+  /**
+   * @return the persenMeasurementP2
+   */
+  public double getPersenMeasurementP2() {
+    return persenMeasurementP2;
+  }
+
+  /**
+   * @param persenMeasurementP2 the persenMeasurementP2 to set
+   */
+  public void setPersenMeasurementP2(double persenMeasurementP2) {
+    this.persenMeasurementP2 = persenMeasurementP2;
+  }
+
+  /**
+   * @return the persenMeasurementP3
+   */
+  public double getPersenMeasurementP3() {
+    return persenMeasurementP3;
+  }
+
+  /**
+   * @param persenMeasurementP3 the persenMeasurementP3 to set
+   */
+  public void setPersenMeasurementP3(double persenMeasurementP3) {
+    this.persenMeasurementP3 = persenMeasurementP3;
   }
 }

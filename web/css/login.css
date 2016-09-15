@@ -15,7 +15,8 @@
   margin-top: 100px;
   max-width: 350px;
   background-color: #26303a;
-  box-shadow: 5px 5px 5px #666;
+  /*box-shadow: #888 0px 0px 10px 10px;*/
+  border: #11aa77 solid 2px;
   text-align: center;
   color: #fff;
 }

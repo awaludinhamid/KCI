@@ -8,12 +8,23 @@ and open the template in the editor.
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Refresh" content="1; url=apps/auth/login"/>
+    <link rel="icon" type="image/png" href="fificon.png"/>
+    <link rel="stylesheet" href="css/loading.css"/>
+    <script src="js/loading.js"></script>
     <title>Currently loading..</title>
   </head>
-  <body style="background-color: #001018">
-    <div style="text-align: center; color: white; margin-top: 20%">
-      <img src="img/loading3.gif" alt="Oops" width="100" height="100"><br/>
-      Page loading, please wait...
+  <body style="background-color: #001018" onload="startLoadingAnim()" onunload="stopLoadingAnim()">
+    <!--div id="loading" style="text-align: center; color: white; margin-top: 18%"-->
+    <div>
+      <!--img src="img/loading4.gif" alt="Oops" width="200" height="150" style="opacity: 1"><br/-->
+      <div id="ball-stage">
+        <div class="redball"></div>
+        <div class="greenball"></div>
+        <div class="yellowball"></div>
+      </div>
+      <div id="text-stage">
+        Page loading, please wait...
+      </div>
     </div>
   </body>
 </html>

@@ -6,7 +6,9 @@
 
 package com.safasoft.kci.service;
 
+import com.safasoft.kci.bean.support.KciGaugeBean;
 import com.safasoft.kci.bean.support.ListBean;
+import com.safasoft.kci.bean.support.ListValueBean;
 import com.safasoft.kci.bean.support.MapBean;
 import com.safasoft.kci.bean.support.ParameterBean;
 import java.util.List;
@@ -22,8 +24,12 @@ public interface GenericService {
   List<ListBean> getAllPeriodes();
   List<ListBean> getAllDepartments();
   List<ListBean> getAllRegions();
-  List<MapBean> getMapBranch();
+  List<MapBean> getMapBranch(int gradeNum, String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId);
   List<MapBean> getMapPos(String officeId);
-  List<ParameterBean> getParmeters(String deptId);
+  List<ParameterBean> getParameters(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId);
   List<ListBean> getAllBussUnits();
+  KciGaugeBean getKciGauge(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId);
+  List<ListValueBean> getKciAreas(String periode, String coyId, String bussUnit, String deptId);
+  List<ListValueBean> getKciBranches(String periode, String coyId, String bussUnit, String areaId, String deptId);
+  List<ListValueBean> getKciDepts(String periode, String coyId, String bussUnit, String areaId, String officeId, String deptId);
 }

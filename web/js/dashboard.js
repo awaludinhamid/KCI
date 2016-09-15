@@ -4,8 +4,82 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {
+// global variable
+var isZoom = false;
+var currDate = new Date();
+var currMonth = currDate.getMonth() + "";
+var periode = currDate.getFullYear()+"00".substr(0,2-currMonth.length)+currMonth;
+var allDataCode = "ALL";
+var company = lob = region = branch = dept = allDataCode;
+var prevcompany = prevlob = prevregion = prevbranch = prevdept = allDataCode;
+var dataperiode, datacompany, datadept, dataarea, databranch;
 
+//global function
+
+//cover and loading animation
+function showCover(coverState,animState,exclElem) {  
+  var arrToMod = ["div#side-menu","div#filter",".title-dashboard",".content-dashboard"];
+  if(coverState) {
+    $("div.div-cover").show();
+    $.each(arrToMod,function(idx,val) {
+      $(val).css("filter","blur(5px)").css("-webkit-filter","blur(5px)");
+    });
+    if(exclElem)
+      $(exclElem).css("filter","none").css("-webkit-filter","none");
+  } else {
+    $("div.div-cover").hide();
+    $.each(arrToMod,function(idx,val) {
+      $(val).css("filter","none").css("-webkit-filter","none");
+    });
+  }
+  if(animState)
+    startLoadingAnim();
+  else
+    stopLoadingAnim();
+}
+  
+// process on zoom in
+function zoomInObj(elem) {
+  elem.css("position","fixed")
+      .css("left","100px")
+      .css("top","102px")
+      .width("1140px")
+      .css("height","460")
+      .css("border","#11aa77 solid 2px")
+      .css("opacity","0.7")
+      .css("z-index","10");
+  var closeBtnParent = elem.parent("div");
+  closeBtnParent.append(
+    "<span class='glyphicon glyphicon-remove-circle close-btn' title='Close'></span>"
+  );
+  closeBtnParent.children("span.close-btn").css("position","fixed")
+                .css("top","77px")
+                .css("left","1247px")
+                .css("transform","scale(2)");
+  $("body").css("overflow","hidden");
+  isZoom = true;  
+  showCover(true,false,"div#"+elem.attr("id")); 
+}
+
+// process on zoom out
+function zoomOutObj(elem) {
+  elem.css("position","static")
+      .css("width","570px")
+      .css("height","230px")
+      .css("border","none")
+      .css("opacity","1")
+      .css("z-index","0");
+  elem.parent("div").children("span.close-btn").remove();
+  $("body").css("overflow","auto");
+  isZoom = false;   
+  showCover(false); 
+}
+
+
+$(document).ready(function() {
+  
+  //$("div.row>div>div:not(:has(div#gauge))").hide();
+  
   // show user menu on page loading
   $("#side-menu>div.user-menu").each(function() {
     $(this).show();
@@ -14,154 +88,40 @@ $(document).ready(function() {
   // show home/welcome link
   $("div#user-menu>div.dropdown>ul>li#home-btn").show();
   
-  // show unavailable message
-  $("div#side-menu>div, div.title-dashboard>img, div#gauge>svg").click(function() {
-    $("div#mdl-dashboard").modal("show");
+  // zoom section
+  $("div:not(:has(div#map))>div.title-dashboard>img:first-child").click(function() {
+    var elem = $(this).parent("div").siblings("div");
+    var currId = elem.attr("id");
+    zoomInObj(elem);
+    if(currId === "graphic") {
+      d3.selectAll('#chart-trend>svg>*').remove();
+      drawChart();
+    } else if(currId === "gauge") {
+      elem.children("img#img-fifgroup").css("transform","scale(2) translate(50.5px,50px)");
+      elem.children("img#img-area").css("transform","scale(2) translate(148.5px,32.5px)");
+      elem.children("img#img-branch").css("transform","scale(2) translate(235px,33px)");
+      elem.children("svg").css("transform","scale(2) translate(154px,68px)");
+    }
   });
   
-  // map object initialization
-  var map, dialog;
-  require([
-    "esri/map",
-    "esri/layers/ArcGISTiledMapServiceLayer",
-    "esri/graphic",
-    "esri/lang",
-    "esri/Color",
-    
-    "esri/geometry/Point", 
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/symbols/TextSymbol",
-    "esri/symbols/Font",
-    
-    "dijit/TooltipDialog",
-    "dijit/popup",
-    
-    "dojo/_base/array",
-    "dojo/dom-style",
-    "dojo/domReady!"
-  ], function(
-    Map, ArcGISTiledMapServiceLayer, Graphic, Lang, Color, Point,
-    SimpleMarkerSymbol, PictureMarkerSymbol, TextSymbol, Font,
-    TooltipDialog, Popup,
-    arrayUtils, domStyle
-  ) {
+  //
+  $("div:not(:has(div#map)):has(div.content-dashboard)").on("click","span.close-btn",function() {
+    var elem = $(this).siblings("div.content-dashboard");
+    var currId = elem.attr("id");
+    zoomOutObj(elem);
+    if(currId === "graphic") {
+      d3.selectAll('#chart-trend>svg>*').remove();
+      drawChart();
+    } else if(currId === "gauge") {
+      elem.children("img").css("transform","");
+      elem.children("svg").css("transform","translate(13px,18px)");
+    }
+  });
   
-    // load init data
-    $.get("../../apps/data/mapbranch",{},
-      function(data,status) {
-      if(status === "success") {
-        var points = data;
-        
-        // calculate center of map
-        /*var pointsLength = points.length;
-        var sumLong = 0;
-        var sumLat = 0;
-        arrayUtils.forEach(points, function(point) {
-          sumLong += point.longitude;
-          sumLat += point.latitude;      
-        });*/
-        
-        // create map  
-        map = new Map("map",{
-          //basemap: "satellite",
-          center: [117,-1.5],//[sumLong/pointsLength, sumLat/pointsLength],
-          zoom: 6,
-          logo: false,
-          showAttribution: false,
-          showLabels: true
-        });
-        
-        // set map rest layer
-        var myTiledMapServiceLayer = new ArcGISTiledMapServiceLayer("http://10.17.18.32:6080/arcgis/rest/services/gis/BASEMAP_HERE/MapServer");
-        //var myTiledMapServiceLayer = new ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");
-        //ArcGISDynamicMapServiceLayer
-        //ArcGISImageServiceLayer
-        map.addLayer(myTiledMapServiceLayer);
-        
-        // load map
-        map.on("load", mapLoaded);
-
-        function mapLoaded(){
-          // clear current symbol
-          map.graphics.clear();
-          
-          // traverse each points
-          arrayUtils.forEach(points, function(point) {
-            
-            // attribute for dialog info
-            var attr = {
-              "title":point.poiName,
-              "lastAudit":point.lastAudit,
-              "grade":point.grade,
-              "p1":point.measurementP1,
-              "p2":point.measurementP2,
-              "poiId":point.poiId
-            };
-            
-            // marker symbol base on picture 
-            var picBaseUrl = "../../img/icon/"; //"https://static.arcgis.com/images/Symbols/Shapes/";
-            var red = new PictureMarkerSymbol(picBaseUrl + point.warnaIcon, 60, 60).setOffset(0, 15);
-            var graphMarker = new Graphic(new Point([point.longitude,point.latitude]), red);
-            graphMarker.setAttributes(attr);
-            map.graphics.add(graphMarker);
-          });
-          
-          // create new dialog if not exist
-          if(!dialog) {
-            dialog = new TooltipDialog({
-              id: "tooltipDialog",
-              style: "position: absolute; width: 250px; z-index:10; text-align: center; opacity: 0.6"
-            });
-            dialog.startup();
-          }
-        
-          // popup on hover
-          map.graphics.on("mouse-over", function(evt) {
-            var t = "<div style='color: #222244'>"+
-                    "<b>${title}</b><br>"+
-                    "<b>LAST AUDIT</b>: ${lastAudit}</br>"+
-                    "<b>GRADE</b>: ${grade}</br>"+
-                    "<b>P1</b>: ${p1:NumberFormat}<br>"+
-                    "<b>P2</b>: ${p2:NumberFormat}<br>"+
-                    "</div>";
-            var content = Lang.substitute(evt.graphic.attributes,t);
-            dialog.setContent(content);
-            //domStyle.set(dialog.domNode, "opacity", 0.85);
-            Popup.open({
-              popup: dialog,
-              x: evt.pageX,
-              y: evt.pageY
-            });
-          });
-          
-          // redraw symbol on click
-          map.graphics.on("click", function(evt) {
-            alert(evt.graphic.attributes.title);
-            $.get("../../apps/data/mappos/"+evt.graphic.attributes.poiId,{},
-              function(data,status) {
-              if(status === "success") {
-                points = data;
-                mapLoaded();
-              } else {
-                alert("Generate periode unsuccessfully: status = " + status);
-              }
-            });
-          });
-          
-          // close dialog on mouse out
-          map.graphics.on("mouse-out", function() {
-            Popup.close(dialog);
-          });
-          
-          // customize map attribute and events
-          //map.disablePan();
-          //map.hideZoomSlider();
-          map.graphics.enableMouseEvents();
-        }
-      } else {
-        alert("Generate periode unsuccessfully: status = " + status);
-      }
-    });
+  // show unavailable message
+  $("div#side-menu>div:not(#report), div.title-dashboard>img:last-child").click(function() {
+      $("div#mdl-dashboard div.modal-body").empty();
+      $("div#mdl-dashboard div.modal-body").append("<span>Currently unavailable..</span>");
+      $("div#mdl-dashboard").modal("show");
   });
 });

@@ -1,0 +1,117 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 26, 2016, 10:47:35 AM
+    Author     : awal
+*/
+
+#ball-stage>.redball {
+  position: absolute;
+  top: -45px;
+  left: 15px;
+  margin: 0;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background: radial-gradient(circle at 50px 50px, #f66, #300);
+}
+#ball-stage>.greenball {
+  position: absolute;
+  top: 47px;
+  left: 70px;
+  margin: 0;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background: radial-gradient(circle at 50px 50px, #6f6, #030);
+}
+#ball-stage>.yellowball {
+  position: absolute;
+  top: 47px;
+  left: -42px;
+  margin: 0;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background: radial-gradient(circle at 50px 50px, #ff6, #330);
+}
+#ball-stage>.blueball {
+  position: absolute;
+  top: 55px;
+  left: 55px;
+  margin: 0;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background: radial-gradient(circle at 50px 50px, #66f, #003);
+}
+#ball-stage {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -25px;
+  margin-top: -50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: none;
+  z-index: 20;
+  /*background-color: rgba(200,200,200,0.2);*/
+  background: radial-gradient(circle at 150px 150px, lightskyblue, #004);
+  animation-name: ball-loading; /* Standard syntax */
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  -webkit-animation-name: ball-loading; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-play-state: paused;
+}
+@keyframes ball-loading {/* Standard syntax */
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+@-webkit-keyframes ball-loading {/* Chrome, Safari, Opera */
+  0% {-webkit-transform: rotate(0deg);}
+  100% {-webkit-transform: rotate(360deg);}
+}
+#text-stage>span {
+  font-size: 16px;
+  font-weight: bolder;
+}
+#text-stage {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -85px;
+  margin-top: 60px;
+  opacity: 0.8;
+  color: red;
+  display: none;
+  z-index: 10;
+  animation-name: text-loading; /* Standard syntax */
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  -webkit-animation-name: text-loading; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 8s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-play-state: paused;
+}
+@keyframes text-loading {/* Standard syntax */
+  0% {color: red;}
+  33% {color: green;}
+  67% {color: #dd0;}
+}
+@-webkit-keyframes text-loading {/* Chrome, Safari, Opera */
+  0% {color: red;}
+  33% {color: green;}
+  67% {color: #dd0;}
+}

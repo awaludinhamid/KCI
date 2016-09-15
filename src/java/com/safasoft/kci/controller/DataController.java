@@ -6,12 +6,18 @@
 
 package com.safasoft.kci.controller;
 
+import com.safasoft.kci.bean.AudMstGrade;
+import com.safasoft.kci.bean.support.KciGaugeBean;
 import com.safasoft.kci.bean.support.ListBean;
+import com.safasoft.kci.bean.support.ListValueBean;
 import com.safasoft.kci.bean.support.MapBean;
 import com.safasoft.kci.bean.support.ParameterBean;
+import com.safasoft.kci.service.AudMstGradeService;
 import com.safasoft.kci.service.GenericService;
 import com.safasoft.kci.util.SessionUtil;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,21 +71,139 @@ public class DataController {
     return new SessionUtil<GenericService>().getAppContext("genericService").getAllBussUnits();
   }
   
-  @RequestMapping(value = "/mapbranch", method = RequestMethod.GET)
-  public @ResponseBody List<MapBean> getMapBranch() {
-    logger.debug("Received request to get map info list");
-    return new SessionUtil<GenericService>().getAppContext("genericService").getMapBranch();
+  @RequestMapping(value = "/mapbranch/{gradeNum}", method = RequestMethod.GET)
+  public @ResponseBody List<MapBean> getMapBranch(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse,
+          @PathVariable("gradeNum") int gradeNum) {
+    //
+    logger.debug("Received request to get map info list");    
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getMapBranch(
+            gradeNum,
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("areaId"),
+            httpRequest.getParameter("officeId"),
+            httpRequest.getParameter("deptId")
+    );
   }
   
   @RequestMapping(value = "/mappos/{branchCode}", method = RequestMethod.GET)
-  public @ResponseBody List<MapBean> getMapPos(@PathVariable("branchCode") String branchCode) {
+  public @ResponseBody List<MapBean> getMapPos(
+          HttpServletResponse httpResponse,
+          @PathVariable("branchCode") String branchCode) {
+    //
     logger.debug("Received request to get map pos list");
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
     return new SessionUtil<GenericService>().getAppContext("genericService").getMapPos(branchCode);
   }
   
-  @RequestMapping(value = "/parameter/{deptId}", method = RequestMethod.GET)
-  public @ResponseBody List<ParameterBean> getParameters(@PathVariable("deptId") String deptId) {
-    logger.debug("Received request to get parameter list");
-    return new SessionUtil<GenericService>().getAppContext("genericService").getParmeters(deptId);
+  @RequestMapping(value = "/parameters", method = RequestMethod.GET)
+  public @ResponseBody List<ParameterBean> getParameters(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse) {
+    logger.debug("Received request to get parameter list");   
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getParameters(
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("areaId"),
+            httpRequest.getParameter("officeId"),
+            httpRequest.getParameter("deptId")
+    );
+  }
+  
+  @RequestMapping(value = "/kcigauge", method = RequestMethod.GET)
+  public @ResponseBody KciGaugeBean getKciGauge(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse) {
+    //
+    logger.debug("Received request to get kci gauge value");    
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getKciGauge(
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("areaId"),
+            httpRequest.getParameter("officeId"),
+            httpRequest.getParameter("deptId")
+    );
+  }
+  
+  @RequestMapping(value = "/kciareas", method = RequestMethod.GET)
+  public @ResponseBody List<ListValueBean> getKciAreas(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse) {
+    //
+    logger.debug("Received request to get list kci area value");    
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getKciAreas(
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("deptId")
+    );
+  }
+  
+  @RequestMapping(value = "/kcibranches", method = RequestMethod.GET)
+  public @ResponseBody List<ListValueBean> getKciBranches(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse) {
+    //
+    logger.debug("Received request to get list kci branch value");    
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getKciBranches(
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("areaId"),
+            httpRequest.getParameter("deptId")
+    );
+  }
+  
+  @RequestMapping(value = "/kcidepts", method = RequestMethod.GET)
+  public @ResponseBody List<ListValueBean> getKciDepts(
+          HttpServletRequest httpRequest,
+          HttpServletResponse httpResponse) {
+    //
+    logger.debug("Received request to get list kci department value");    
+    //no cache applicable
+    setNoCache(httpResponse);
+    //
+    return new SessionUtil<GenericService>().getAppContext("genericService").getKciDepts(
+            httpRequest.getParameter("periode"),
+            httpRequest.getParameter("coyId"),
+            httpRequest.getParameter("bussUnit"),
+            httpRequest.getParameter("areaId"),
+            httpRequest.getParameter("officeId"),
+            httpRequest.getParameter("deptId")
+    );
+  }
+  
+  @RequestMapping(value = "/allgrades", method = RequestMethod.GET)
+  public @ResponseBody List<AudMstGrade> getAllGrades() {
+    logger.debug("Received request to get grades list");
+    return new SessionUtil<AudMstGradeService>().getAppContext("audMstGradeService").getAll();
+  }
+  
+  private void setNoCache(HttpServletResponse httpResponse) {
+    httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    httpResponse.setDateHeader("Expires", 0); // Proxies    
   }
 }
