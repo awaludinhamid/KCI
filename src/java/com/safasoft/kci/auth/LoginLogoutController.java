@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Login controller
@@ -74,5 +75,11 @@ public class LoginLogoutController {
   // This will resolve to /jsp/deniedpage.jsp
   return "deniedpage";
  }
+  
+  @RequestMapping(value = "/currentsession", method = RequestMethod.GET)
+  public @ResponseBody String getCurrentSession(HttpServletRequest httpRequest) {
+    logger.debug("Received request to get current session");
+    return httpRequest.getSession().getId();
+  }
 
 }

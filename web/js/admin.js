@@ -5,8 +5,9 @@
  */
 
 $(document).ready(function() {
-  
-  $("#side-menu>div.admin-menu").each(function() {
-    $(this).show();
+    
+  //
+  $(".modal:not(#mdl-diag-flow)").on("hidden.bs.modal",function() {
+    showCover(false);
   });
 });

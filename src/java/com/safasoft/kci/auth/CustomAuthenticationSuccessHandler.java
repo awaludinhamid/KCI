@@ -6,14 +6,17 @@
 
 package com.safasoft.kci.auth;
 
+import com.safasoft.kci.bean.AudMstUsers;
+import com.safasoft.kci.service.AudMstUsersService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,9 +26,12 @@ import org.springframework.stereotype.Component;
  * @author awal
  */
 @Component("customAuthenticationSuccessHandler")
-public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler { //SimpleUrlAuthenticationSuccessHandler
  
   private final Logger authLogger = Logger.getLogger("auth");
+  
+  @Autowired
+  private AudMstUsersService amuServ;
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
@@ -43,6 +49,11 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         session.setAttribute("cnname", cnname);
         session.setAttribute("uid", auth.getName());
         session.setAttribute("sessionid", session.getId());
+        //
+        AudMstUsers user = amuServ.getByUserName(auth.getName());
+        session.setAttribute("hasCpts", user.getHasCpts());
+        session.setAttribute("hasOrgChart", user.getHasOrgChart());
+        session.setAttribute("hasReport", user.getHasReport());
       } catch(Exception ex) {
         authLogger.error(ex);
       }

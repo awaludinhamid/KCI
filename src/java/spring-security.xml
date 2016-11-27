@@ -25,8 +25,11 @@
   <security:intercept-url pattern="/apps/main/dashboard" access="hasRole('ROLE_USER')"/>
   <security:intercept-url pattern="/apps/main/welcome" access="isAuthenticated()"/>
   <!-- -->
-  <security:intercept-url pattern="/apps/data/currentsession" access="permitAll"/>
+  <security:intercept-url pattern="/apps/auth/currentsession" access="permitAll"/>
   <security:intercept-url pattern="/apps/data/**" access="hasRole('ROLE_USER')"/>
+  <security:intercept-url pattern="/apps/save/**" access="hasRole('ROLE_ADMIN')"/>
+  <security:intercept-url pattern="/apps/delete/**" access="hasRole('ROLE_ADMIN')"/>
+  <security:intercept-url pattern="/apps/edit/**" access="hasRole('ROLE_ADMIN')"/>
 
   <security:form-login
     login-page="/apps/auth/login"
@@ -61,7 +64,7 @@
 
 <!-- ************************ LDAP + DB AUTHENTICATION ********************************* -->
 
-  <!-- local 
+  <!-- local -->
   <bean id="contextSource"
           class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
     <constructor-arg value="ldap://localhost:10389/o=safasoft"/>
@@ -74,8 +77,8 @@
     <constructor-arg index="1" value="(uid={0})"/>
     <constructor-arg index="2" ref="contextSource" />
   </bean>
-  -->
-  <!-- FIF -->
+  
+  <!-- FIF 
   <bean id="contextSource"
           class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
     <constructor-arg value="ldap://fif.co.id:389/dc=fif,dc=co,dc=id"/>
@@ -88,7 +91,7 @@
     <constructor-arg index="1" value="(&amp;(objectClass=user)(sAMAccountName={0}))"/>
     <constructor-arg index="2" ref="contextSource" />
   </bean>
-  
+  -->
   <bean id="ldapAuthProvider"
       class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
     <constructor-arg>

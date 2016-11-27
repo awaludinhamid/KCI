@@ -15,21 +15,20 @@ and open the template in the editor.
   height: 500px;
   margin: auto;
   text-align: center;
-  color: white;
-  border: #11aa77 solid 2px;
+  color: #badafa;
+  border: #badafa solid 2px;
   border-radius: 10px;
-  background-color: #26303a;
+  /*background-color: #26303a;*/
 }
 .welcome-message>h1 {
   padding-top: 50px;
   margin: 0;
-  color: white;
 }
 .welcome-message .hr-top {
-  border-color: #555;
+  border-color: #badafa;
   border-width: 5px;
 }
 .welcome-message .hr-down {
-  border-color: #bbb;
+  border-color: #badafa;
   border-width: 2px;
 }

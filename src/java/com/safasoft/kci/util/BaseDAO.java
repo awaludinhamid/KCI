@@ -97,9 +97,8 @@ public class BaseDAO<T> {
    * @return integer
    */
   public int count() {
-    List list = sessionFactory.getCurrentSession().createQuery(
-            "select count(*) from " + domainClass.getName() + " x").list();
-    Long longVal = (Long) list.get(0);
-    return longVal.intValue();
+    return ((Long) sessionFactory.getCurrentSession().createQuery(
+            "select count(*) from " + domainClass.getName() + " x")
+            .iterate().next()).intValue();
   }
 }

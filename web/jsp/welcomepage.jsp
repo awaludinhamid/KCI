@@ -22,13 +22,12 @@
       <br/>
       <hr class="hr-top"/>
       <h3>
-        KCI merupakan tools untuk monitoring incident <br/>
-        ...<br/>
-        ...<br/>
-        ...
+        <br/>
+        Key Control Indicator (KCI) merupakan tools continuous audit FIFGROUP yang menyediakan analisis atas jaminan kecukupan kontrol dari operasional bisnis yang dijalankan.
+        <br/>
+        <br/>
       </h3>
       <hr class="hr-down"/>
-      <br/>
       <br/>
       <p>
         <a class="btn btn-primary btn-lg" href="../../apps/main/dashboard" style="width: 180px">

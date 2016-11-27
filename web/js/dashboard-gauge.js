@@ -10,23 +10,15 @@ $(document).ready(function() {
   // variable
   var kciRangeDegree = 240;
   var kciDegreeStart = 60;
-  var kciUnitValue = 0.01;
   var percentValue = 100;
-  var speedoValIndPosX = 92,
-      speedoValIndPosY = 138;
-  var transformOriginPoint = "16.1% 41%";
   var intervalTimePerVal = 5000; //in millisecond
-  var kciGradeValueMin = 1,
-      kciGradeValueMax = 3;
-  var kciGradeValuePoint1 = getValuePoint(1),
-      kciGradeValuePoint2 = getValuePoint(2),
-      kciGradeValuePoint3 = getValuePoint(3);
   var arcArrColor = {
     "HIJAU":["rgba(180,255,200,0.8)","rgba(0,255,0,0.4)"],
     "KUNING":["rgba(255,200,180,0.8)","rgba(255,255,0,0.4)"],
     "MERAH":["rgba(255,180,180,0.8)","rgba(255,0,0,0.4)"]
   };
   var kciTextColor = "green";
+  var currRotateArr = {"needle-fifgroup":0,"needle-area":0,"needle-branch":0};
   
   // change filter
   $("div#filter>div>ul").on("click","li",function() { 
@@ -44,54 +36,38 @@ $(document).ready(function() {
   $("div#gauge>svg").on("click","g>g",function() {
     var thisElem = $(this);
     var thisId = this.id;
+    var gaugeInfoArr = {
+        "fifgroup":{"url":"../../apps/data/kciareas","param":{periode: periode,coyId: company,bussUnit: lob,deptId: dept}},
+        "area":{"url":"../../apps/data/kcibranches","param":{periode: periode,coyId: company,bussUnit: lob,areaId: region,deptId: dept}},
+        "branch":{"url":"../../apps/data/kcidepts","param":{periode: periode,coyId: company,bussUnit: lob,areaId: region,officeId: branch,deptId: dept}}
+    };
     if(isZoom)
       $("div.div-cover").css("z-index",12);
-    showCover(true,true);
-    if(thisId === "fifgroup")
-      $.get("../../apps/data/kciareas",{
-            periode: periode,
-            coyId: company,
-            bussUnit: lob,
-            deptId: dept},
-        function(data,status) {
-        if(status === "success") {
-          createGaugeDetail(thisElem,data);
-        } else {
-          alert("Generate gauge kci area value unsuccessfully: status = " + status);
-          showCover(false,false);
-        }
-      });
-    else if(thisId === "area")
-      $.get("../../apps/data/kcibranches",{
-            periode: periode,
-            coyId: company,
-            areaId: region,
-            bussUnit: lob,
-            deptId: dept},
-        function(data,status) {
-        if(status === "success") {
-          createGaugeDetail(thisElem,data);
-        } else {
-          alert("Generate gauge kci branch value unsuccessfully: status = " + status);
-          showCover(false,false);
-        }
-      });
-    else if(thisId === "branch")
-      $.get("../../apps/data/kcidepts",{
-            periode: periode,
-            coyId: company,
-            areaId: region,
-            officeId: branch,
-            bussUnit: lob,
-            deptId: dept},
-        function(data,status) {
-        if(status === "success") {
-          createGaugeDetail(thisElem,data);
-        } else {
-          alert("Generate gauge kci dept value unsuccessfully: status = " + status);
-          showCover(false,false);
-        }
-      });
+    createGaugeDetail(thisElem,gaugeInfoArr[thisId].url,gaugeInfoArr[thisId].param);
+  });
+  
+  // zoom section
+  $("div:has(div#gauge)>div.title-dashboard>img:first-child").click(function() {
+    var elem = $("div#gauge");
+    zoomInObj(elem);
+    elem.children("img#img-fifgroup").css("transform","scale(2) translate(50.5px,50px)");
+    elem.children("img#img-area").css("transform","scale(2) translate(148.5px,32.5px)");
+    elem.children("img#img-branch").css("transform","scale(2) translate(236px,33px)");
+    elem.children("img#needle-fifgroup").css("transform","scale(2) translate(42px,30px) rotate("+currRotateArr["needle-fifgroup"]+"deg)");
+    elem.children("img#needle-area").css("transform","scale(2) translate(149px,31px) rotate("+currRotateArr["needle-area"]+"deg)");
+    elem.children("img#needle-branch").css("transform","scale(2) translate(235px,32px) rotate("+currRotateArr["needle-branch"]+"deg)");
+    elem.children("svg").css("transform","scale(2) translate(154px,68px)");
+  });
+  
+  //
+  $("div:has(div#gauge):has(div.content-dashboard)").on("click","span.close-btn",function() {
+    var elem = $("div#gauge");
+    zoomOutObj(elem);
+    elem.children("img").css("transform","");
+    elem.children("img#needle-fifgroup").css("transform","rotate("+currRotateArr["needle-fifgroup"]+"deg)");
+    elem.children("img#needle-area").css("transform","rotate("+currRotateArr["needle-area"]+"deg)");
+    elem.children("img#needle-branch").css("transform","rotate("+currRotateArr["needle-branch"]+"deg)");
+    elem.children("svg").css("transform","translate(13px,18px)");
   });
   
   //
@@ -120,10 +96,11 @@ $(document).ready(function() {
       if(status === "success") {
         d3.selectAll("div#gauge>svg>*").remove();
         showCover(false,false);
-        execCreateSpeedo(data.kciFifgroup,data.kciArea,data.kciBranch);
+        if(data.kciFifgroup.gradeId)
+          execCreateSpeedo(data.kciFifgroup,data.kciArea,data.kciBranch);
       } else {
         alert("Generate gauge value unsuccessfully: status = " + status);
-        showCover(false,true);
+        showCover(false,false);
       }
     });
   }
@@ -150,13 +127,13 @@ $(document).ready(function() {
     });
     //gauge fifgroup  
     createSpeedo(svgGrp,"fifgroup","",kciFifgroup.nilaiKci,"div#gauge>svg>g>g#fifgroup>text#kci-text",
-                  "div#gauge>svg>g>g#fifgroup>g#needle",kciFifgroup.batasBawah,kciFifgroup.batasAtas);  
+                  "div#gauge>img#needle-fifgroup",kciFifgroup.batasBawah,kciFifgroup.batasAtas);  
     //gauge area
     createSpeedo(svgGrp,"area","translate(225 19) scale(0.84)",kciArea.nilaiKci,"div#gauge>svg>g>g#area>text#kci-text",
-                  "div#gauge>svg>g>g#area>g#needle",kciArea.batasBawah,kciArea.batasAtas);
+                  "div#gauge>img#needle-area",kciArea.batasBawah,kciArea.batasAtas);
     //gauge branch
     createSpeedo(svgGrp,"branch","translate(415 33) scale(0.68)",kciBranch.nilaiKci,"div#gauge>svg>g>g#branch>text#kci-text",
-                  "div#gauge>svg>g>g#branch>g#needle",kciBranch.batasBawah,kciBranch.batasAtas);
+                  "div#gauge>img#needle-branch",kciBranch.batasBawah,kciBranch.batasAtas);
   }
   
   function getGradeRatio(gradeValue) {
@@ -168,7 +145,7 @@ $(document).ready(function() {
             .attr("id",svgId)
             .attr("transform",svgTransform);
     createSpeedoValue(svgScopeGrp);  
-    createNeedle(svgScopeGrp.append("svg:g"));  
+    //createNeedle(svgScopeGrp.append("svg:g"));  
     createPointValue(svgScopeGrp.append("svg:g"));  
     roundingNeedle(svgScopeGrp,kciValue,elemKciText,elemNeedle,kciBatasBawah,kciBatasAtas);    
   }
@@ -183,35 +160,19 @@ $(document).ready(function() {
             .style("font-size","16px");    
   }
   
-  function createNeedle(svgNeedleGrp) {
-    svgNeedleGrp
-            .style("transform-origin",transformOriginPoint)
-            .attr("id","needle");
-    $.each(["url(#blur)",""], function(idx,val) {
-      svgNeedleGrp.append("svg:path")
-            .attr("d","M 92,114 L 88,77 H 96 Z")
-            .attr("stroke","#aaaaaa")
-            .attr("stroke-width","2")
-            .attr("fill","white")
-            .attr("filter",val);    
-    });    
-  }
-  
   function createPointValue(svgPointGroup) {
+    var translatePointArr = [{x:"35",y:"115"},
+                              {x:"35",y:"65"},
+                              {x:"80",y:"35"},
+                              {x:"125",y:"65"},
+                              {x:"125",y:"115"}];
     svgPointGroup
-            .style("transform","translate(-11px)");
+            .style("transform","translate(0px,0px)");
     $.each([kciGradeValueMin,kciGradeValuePoint1,kciGradeValuePoint2,kciGradeValuePoint3,kciGradeValueMax], function(idx,val) {
-      var svgEachPointGrp = svgPointGroup.append("svg:g");
-      var rotateDegree = kciDegreeStart+(getGradeRatio(val)*kciRangeDegree);
-      svgEachPointGrp
-            .style("transform-origin",transformOriginPoint)
-            .style("transform","rotate("+rotateDegree+"deg)");
-      svgEachPointGrp
+      svgPointGroup
             .append("svg:text")
-            .attr("x",speedoValIndPosX)
-            .attr("y",speedoValIndPosY)
-            .style("transform-origin",speedoValIndPosX+"px "+speedoValIndPosY+"px")
-            .style("transform","rotate(-"+rotateDegree+"deg)")
+            .attr("x",translatePointArr[idx].x)
+            .attr("y",translatePointArr[idx].y)
             .text(val.toFixed(1));
     });    
   }
@@ -245,6 +206,7 @@ $(document).ready(function() {
         kciGrade3Percent = Math.round(kciGrade3Min * percentValue);
     var kciText = $(elemKciText);
     var needle = $(elemNeedle);
+    var thisId = needle.attr("id");
     var counter = setInterval(function() {
       kciText.text((kciCnt/percentValue).toFixed(2));
       if (kciCnt < kciPercent) {
@@ -277,43 +239,63 @@ $(document).ready(function() {
                 .attr("fill",arcArrColor.MERAH[1]);
           kciTextColor = "red";
         }
-        needle.attr("transform","rotate("+(kciDegreeStart + ((kciCnt-kciCntInit)*degreePerValue))+")");
+        needle.css("transform","rotate(" + (kciDegreeStart + ((kciCnt-kciCntInit)*degreePerValue)) + "deg)");
         kciCnt++;
       }
       else {
+        currRotateArr[thisId] = kciDegreeStart + ((kciCnt-kciCntInit)*degreePerValue);
         clearInterval(counter);
       }
     }, intervalTimePerVal/kciPercent);
   };
   
-  function createGaugeDetail(thisElem,data) {
-    var dataLength = data.length;
-    var halfLength = Math.floor(dataLength/2);
-    var tableBody = $("div#gauge-detail>div>table>tbody");
-    tableBody.find("*").remove();
-    for(var idx = 0; idx < halfLength; idx++) {
-      var tRow = $("<tr></tr>");
-      $("<td>"+data[idx].name+"</td>").appendTo(tRow);
-      $("<td>"+data[idx].assignValue.toFixed(2)+"</td>").css("color",data[idx].descr).appendTo(tRow);
-      $("<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>").appendTo(tRow);
-      $("<td>"+data[idx+halfLength].name+"</td>").appendTo(tRow);
-      $("<td>"+data[idx+halfLength].assignValue.toFixed(2)+"</td>").css("color",data[idx+halfLength].descr).appendTo(tRow);
-      tRow.appendTo(tableBody);
-    }
-    if(dataLength % 2 !== 0) {
-      var addTRow = $("<tr></tr>");
-      $("<td>"+data[dataLength-1].name+"</td>").appendTo(addTRow);
-      $("<td>"+data[dataLength-1].assignValue.toFixed(2)+"</td>").css("color",data[dataLength-1].descr).appendTo(addTRow);
-      addTRow.appendTo(tableBody);
-    }
-    $("<span>"+thisElem.children("text#kci-text").text()+"</span>").css("color",kciTextColor).appendTo($("div#gauge-detail>div>span").html(
+  function createGaugeDetail(thisElem,url,param) {
+    var divGaugeDetail = $("div#gauge-detail");
+    $("<span>"+thisElem.children("text#kci-text").text()+"</span>").css("color",kciTextColor).appendTo(divGaugeDetail.find("div>span").html(
         thisElem.attr("id").toUpperCase()+"&nbsp;VALUES&nbsp;&nbsp;&nbsp;"            
-    ));   
-    $("div#gauge-detail").show();
-    showCover(true,false);
+    )); 
+    divGaugeDetail.scope().createGaugeDetail(divGaugeDetail,url,param);
   }
+});
   
-  function getValuePoint(pointSeq) {
-    return kciGradeValueMin + (pointSeq/4 * (kciGradeValueMax - kciGradeValueMin));
-  }
+/****** ANGULAR SECTION ******/
+
+//Setup gauge controller
+kciApp.controller("kciGaugeCtrl", function($scope,$http) {
+  //load parameter
+  $scope.createGaugeDetail = function(divGaugeDetail,url,param){
+    showCover(true,true);
+    $http.get(url,{params: param}).then(function(response) {
+      var data = response.data;
+      var dataLength = data.length;
+      var halfLength = Math.floor(dataLength/2);
+      var dataTemps = []; 
+      for(var idx = 0; idx < halfLength; idx++) {     
+        var dataTemp = {};
+        dataTemp["name"] = data[idx].name;
+        dataTemp["assignValue"] = data[idx].assignValue.toFixed(2);
+        dataTemp["color"] = data[idx].descr;
+        dataTemp["nameEven"] = data[idx+halfLength].name;
+        dataTemp["assignValueEven"] = data[idx+halfLength].assignValue.toFixed(2);
+        dataTemp["colorEven"] = data[idx+halfLength].descr;   
+        dataTemps[idx] = dataTemp;
+      }
+      if(dataLength % 2 !== 0) {    
+        var dataTemp = {};
+        dataTemp["name"] = data[dataLength-1].name;
+        dataTemp["assignValue"] = data[dataLength-1].assignValue.toFixed(2);
+        dataTemp["color"] = data[dataLength-1].descr;
+        dataTemp["nameEven"] = "";
+        dataTemp["assignValueEven"] = "";
+        dataTemp["colorEven"] = "initial";   
+        dataTemps[idx] = dataTemp;        
+      }
+      $scope.kciDetailList = dataTemps;  
+      divGaugeDetail.show();
+      showCover(true,false);
+    }, function(response) {
+      alert("Something wrong in the server");
+      showCover(false,false);
+    });
+  };
 });

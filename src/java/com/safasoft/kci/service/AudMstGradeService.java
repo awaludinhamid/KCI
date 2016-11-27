@@ -15,5 +15,12 @@ import java.util.List;
  */
 public interface AudMstGradeService {
 
+  AudMstGrade save(AudMstGrade amg);
+  AudMstGrade delete(AudMstGrade amg);
   List<AudMstGrade> getAll();
+  AudMstGrade getById(String id);
+  List<AudMstGrade> getByPage(int pageNo);
+  List<AudMstGrade> getByPageIdAndName(String param1, String param2, int pageNo);
+  int count();
+  int count(String param1, String param2);
 }

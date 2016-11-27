@@ -196,7 +196,22 @@ $(document).ready(function() {
         // grade level click
         $(".row>div>div:has(div#map)>div.title-dashboard>div.dropdown>ul>li").click(function() {
           showCover(true,true);
-          currIdxMap = $(this).index();
+          if($(this).index() === 4) {
+            var currFindRest = $(this).find("a>span");
+            if(currFindRest.text().trim() === "To Local Rest") {
+              currFindRest.text(" To Online Rest");
+              map.removeLayer(myTiledMapServiceLayer);
+              myTiledMapServiceLayer = new ArcGISTiledMapServiceLayer("http://10.17.18.32:6080/arcgis/rest/services/gis/BASEMAP_HERE/MapServer");
+              map.addLayer(myTiledMapServiceLayer);
+            } else {
+              currFindRest.text(" To Local Rest");
+              map.removeLayer(myTiledMapServiceLayer);
+              myTiledMapServiceLayer = new ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");
+              map.addLayer(myTiledMapServiceLayer);
+            }            
+          } else {
+            currIdxMap = $(this).index();
+          }
           $.get("../../apps/data/mapbranch/"+currIdxMap,{
             periode: periode,
             coyId: company,

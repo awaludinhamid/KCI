@@ -3,96 +3,66 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+  
+  var datascope = [{code:"fp", name:"Function Parameter"},
+                   {code:"ap", name:"Area Parameter"},
+                   {code:"mp", name:"Monthly Priority"}
+                 ];
 
 $(document).ready(function() {
-  
-  // variable
-  var prevrepscope = "fp", prevrepperiode, prevreparea, prevrepbranch, prevrepcompany, prevrepdept;
-  
   //
   $("div#side-menu>div#report").click(function() {
-    prevrepperiode = dataperiode[0].code;
-    prevreparea = dataarea[0].code;
-    prevrepbranch = databranch[0].code;
-    prevrepcompany = datacompany[0].code;
-    prevrepdept = datadept[0].code;
-    if($("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>ul>li").length === 0) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>span").html(
-        dataperiode[0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      $.each(dataperiode,function(idx,dp) {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>ul").append(
-          "<li data-code='"+dp.code+"'>"+dp.name+"</li>"
-        );        
+    if($("span#hasRoleReport").text() === "true") {
+      showCover(true,true);
+      window["prevrepscope"] = datascope[0].code;
+      window["prevrepperiode"] = dataperiode[0].code;
+      window["prevreparea"] = dataarea[0].code;
+      window["prevrepcompany"] = datacompany[0].code;
+      window["prevrepdept"] = datadept[0].code;
+
+      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr").each(function() {
+        var tdObj = $(this).children("td:nth-child(2)");
+        var tdId = tdObj.attr("id");
+        var arrName = tdId.replace("rep","data");
+        if(tdObj.find("div>ul>li").length === 0) {
+          $.each(window[arrName],function(idx,dp) {
+            tdObj.find("div>ul").append(
+              "<li data-code='"+dp.code+"'>"+dp.name+"</li>"
+            );        
+          });
+        }
+        tdObj.find("div>span").html(
+          window[arrName][0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
+        );
       });
+      $("div#mdl-kci-report").modal("show");    
+      showCover(true,false);
+    } else {
+      showMessage("You have no Report role ..!");
     }
-    if($("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-company>div>ul>li").length === 0) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-company>div>span").html(
-        datacompany[0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      $.each(datacompany,function(idx,dc) {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-company>div>ul").append(
-          "<li data-code='"+dc.code+"'>"+dc.name+"</li>"
-        );        
-      });        
-    }
-    if($("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-dept>div>ul>li").length === 0) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-dept>div>span").html(
-        datadept[0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      $.each(datadept,function(idx,dd) {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-dept>div>ul").append(
-          "<li data-code='"+dd.code+"'>"+dd.name+"</li>"
-        );        
-      });        
-    }
-    if($("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-area>div>ul>li").length === 0) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-area>div>span").html(
-        dataarea[0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      $.each(dataarea,function(idx,dd) {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-area>div>ul").append(
-          "<li data-code='"+dd.code+"'>"+dd.name+"</li>"
-        );        
-      });        
-    }
-    if($("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-branch>div>ul>li").length === 0) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-branch>div>span").html(
-        databranch[0].name+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      $.each(databranch,function(idx,dd) {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-branch>div>ul").append(
-          "<li data-code='"+dd.code+"'>"+dd.name+"</li>"
-        );        
-      });        
-    }
-    $("div#mdl-kci-report").modal("show");    
   });
   
   //
-  $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-scope>div>ul>li").click(function() {
+  $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td>div>ul").on("click","li",function() {
+    var parentsTdId = $(this).parents("td").attr("id");
     var thisCode = $(this).data("code");
-    if(thisCode !== prevrepscope) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-scope>div>span").html(
+    if(thisCode !== window["prev"+parentsTdId]) {
+      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#"+parentsTdId+">div>span").html(
         $(this).text()+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
       );
-      if($(this).data("code") === "ap") {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-area)").show();
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-branch)").hide();
-      } else if($(this).data("code") === "bp") {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-area)").hide();
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-branch)").show();
-      } else {
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-area)").hide();
-        $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#report-branch)").hide();
+      if(parentsTdId === "repscope") {
+        if($(this).data("code") === "ap") {
+          $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#reparea)").show();
+        } else {
+          $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr:has(td#reparea)").hide();
+        }
       }
-      prevrepscope = thisCode;
+      window["prev"+parentsTdId] = thisCode;
     }
   });
   
   //
-  $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>ul").on("click","li",function() {
+  /*$("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>ul").on("click","li",function() {
     var thisCode = $(this).data("code");
     if(thisCode !== prevrepperiode) {
       $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-periode>div>span").html(
@@ -110,17 +80,6 @@ $(document).ready(function() {
         $(this).text()+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
       );
       prevreparea = thisCode;
-    }
-  });
-  
-  //
-  $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-branch>div>ul").on("click","li",function() {
-    var thisCode = $(this).data("code");
-    if(thisCode !== prevrepbranch) {
-      $("div#mdl-kci-report>div>div>div.modal-body>table>tbody>tr>td#report-branch>div>span").html(
-        $(this).text()+"&nbsp;<span class='glyphicon glyphicon-triangle-bottom'></span>"
-      );
-      prevrepbranch = thisCode;
     }
   });
   
@@ -144,5 +103,48 @@ $(document).ready(function() {
       );
       prevrepdept = thisCode;
     }
+  });*/
+  
+  //
+  $("div#mdl-kci-report>div>div>div.modal-footer>button#btn-print").click(function() {
+    /*$.get("../../apps/data/reportperiodikparam",{
+      repPeriode: repPeriode,
+      scopeOfReport: scopeOfReport,
+      repCoyId: repCoyId,
+      repDeptId: repDeptId},
+      function(data) {
+        if(data === "ok") {
+          alert("ok");
+          //window.location.replace("../../apps/data/downloadreport");
+        }
+    });*/
+    window.location.replace("../../apps/data/downloadreport?"+
+            "repPeriode="+window["prevrepperiode"]+"&"+
+            "scopeOfReport="+window["prevrepscope"]+"&"+
+            "repCoyId="+window["prevrepcompany"]+"&"+
+            "repAreaId="+window["prevreparea"]+"&"+
+            "repDeptId="+window["prevrepdept"]); 
+    var counter = setInterval(function() {  
+      $.get("../../apps/data/downloadstatus",{},function(data,status) {
+        if(status === "success") {
+          if(data === "DONE") {
+            clearInterval(counter);
+            if(isZoom)
+              $("div.div-cover").css("z-index",10);
+            else
+              $("div.div-cover").css("z-index",5);
+            showCover(true,false,"div#parameter-detail");
+          }      
+        } else {
+          alert("Generate download status unsuccessfully: status = " + status);
+          showCover(true,false);
+        }      
+      });
+    }, 2000);
+  });
+  
+  //
+  $("div#mdl-kci-report").on("hidden.bs.modal",function() {
+    showCover(false,false);
   });
 });

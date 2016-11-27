@@ -16,7 +16,7 @@
     <div class="row">
       <form class="form-signin" method="POST" action="../../apps/auth/security">
         <h3 class="form-signin-heading">Please sign in to continue:</h3>
-        <img src="../../img/user.png" alt="user"/>
+        <img src="../../img/user2.png" alt="user"/>
         <div>
           <label for="j_username" class="sr-only">Username</label>
           <input type="text" name="j_username" class="form-control" placeholder="Username" required autofocus>

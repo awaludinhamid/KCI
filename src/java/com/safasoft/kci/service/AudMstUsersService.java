@@ -15,7 +15,15 @@ import java.util.List;
  */
 public interface AudMstUsersService {
 
+  AudMstUsers save(AudMstUsers user);
+  AudMstUsers delete(AudMstUsers user);
   AudMstUsers getById(int id);
   AudMstUsers getByUserName(String userName);
   List<AudMstUsers> getAll();
+  List<AudMstUsers> getByPage(int pageNo);
+  List<AudMstUsers> getByPageName(String emplNamePattern, int pageNo);
+  List<AudMstUsers> getByPageNameAndRole(String emplNamePattern, int roleId, int pageNo);
+  int count();
+  int count(String emplNamePattern);
+  int count(String emplNamePattern, int roleId);
 }

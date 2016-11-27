@@ -11,7 +11,7 @@ and open the template in the editor.
 body {
   background-color: #001018;
   font-family: "Century Gothic",sans-serif;
-  color: #fafafa;
+  color: #badafa;
 }
 
 .container {
@@ -25,7 +25,7 @@ body {
   height: 20px;
   margin: 0;
   padding: 0;
-  z-index: 10;
+  z-index: 20;
   /*font-family: Helvetica,sans-serif,Tahoma,monospace,cursive;
   font-size: 30px;
   font-weight: bolder;
@@ -67,13 +67,10 @@ div#user-menu>div.dropdown>ul {
   opacity: 0.9;
 }
 div#user-menu>div.dropdown>ul>li>a {
-  color: #fafafa;  
+  color: #badafa;  
 }
 div#user-menu>div.dropdown>ul>li>a:hover {
   background-color: #229999;
-}
-div#user-menu>div.dropdown>ul>li#home-btn {
-  display: none;
 }
 
 #backImage {
@@ -95,4 +92,172 @@ div#user-menu>div.dropdown>ul>li#home-btn {
   .title {
     font-size: 15px;
   }
+}
+
+div#mdl-profile .modal-dialog {
+  margin-top: 100px;
+}
+div#mdl-profile>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+  font-size: 17px;
+}
+div#mdl-profile>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-profile>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-profile>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+    
+.div-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #001018;
+  opacity: 0.6;
+  z-index: 5;
+  display: none;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .div-cover {
+      opacity: 0.95;
+  }  
+}  
+
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * S I D E   M E N U * * * */
+
+div#side-menu {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  background-color: #26303a;
+  padding: 10px;
+  text-align: center;
+  width: 140px;
+  height: 550px;
+  border: #badafa solid 2px;
+}
+div#side-menu>div {
+  border: white 1px solid;
+  border-radius: 5px;
+  box-shadow:2px 2px 2px #ccc;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+div#side-menu>div>img {
+  height: 70px;
+}
+div#side-menu>div#cpts>img, div#side-menu>div#help>img, div#side-menu>div#grading-value>img {
+  width: 70px;
+}
+div#side-menu>div#report>img {
+  width: 51.89px;
+}
+div#side-menu>div#org-chart>img {
+  width: 83.53px;
+}
+div#side-menu>div#role-access>img {
+  width: 55.76px;
+}
+div#side-menu>div#log-monitor>img {
+  width: 71.04px;
+}
+div#side-menu>div#param-audit>img {
+  width: 74.02px;
+}
+div#side-menu>div#grading-value>span {
+  font-size: 13px;
+}
+div#side-menu>div#param-audit>span {
+  font-size: 11px;
+}
+div#side-menu>div>span {
+  color: white;
+}
+div#side-menu>div:hover {
+  cursor: pointer;
+  transition: transform 300ms;
+  transform: translate(4px,4px);
+  box-shadow: none;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * M O D A L   D A S H B O A R D * * * */
+
+div#mdl-message>div>div.modal-content {
+  color: red;
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-message>div>div.modal-content>div>button {
+  color: red;
+  font-size: 40px;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * C O M M O N * * * */
+
+.crud-header {
+  margin-left: -15px;
+}
+.img-crud-header>img {
+  margin-right: 10px;
+}
+.img-record {
+  cursor: pointer;
+}
+.img-record-large {
+  width: 35px;
+  height: 35px;
+}
+.img-record-medium {
+  width: 30px;
+  height: 30px;
+}
+.img-record-small {
+  width: 20px;
+  height: 20px;
+}
+.img-record-small-percent {
+  width: 20%;
+  height: 20%;
+}
+.img-record-medium-percent {
+  width: 30%;
+  height: 30%;
+}
+.img-record-large-percent {
+  width: 35%;
+  height: 35%;
+}
+
+.dialog-common {
+  width: 88%;
+}
+.dialog-common>div {
+  transform: translate(80px,70px);
+}
+
+.pagination>li>a {
+  background-color: transparent;
+  margin-left: 10px;
+  border-color: lightskyblue;
+}
+.pagination>li.disabled>a {
+  color: white;
+  background-color: rgba(255,80,80,0.6);
 }

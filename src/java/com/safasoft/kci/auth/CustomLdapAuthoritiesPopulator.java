@@ -42,6 +42,7 @@ public class CustomLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator 
                  access =
                          new SessionUtil<AudMstUsersService>().getAppContext("audMstUsersService")
                          .getByUserName(username)
+                         .getRole()
                          .getRoleId();
                } catch(NullPointerException npe) {
                  logger.error(npe);

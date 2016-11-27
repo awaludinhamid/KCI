@@ -1,0 +1,584 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 5, 2016, 11:13:50 AM
+    Author     : awal
+*/
+
+/* * * * C O M M O N * * * */
+
+.dialog-crud {
+  width: 30%;
+}
+.dialog-crud.dialog-crud-medium {
+  width: 35%;
+}
+.dialog-crud.dialog-crud-large {
+  width: 40%;
+}
+.dialog-crud>div {
+  transform: translateY(70px);
+}
+
+.text-mandatory {
+  color: red;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * M O D A L   G R A D I N G   V A L U E * * * */
+
+div#mdl-grading-value>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-grading-value>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-grading-value>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-grading-value>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-grading-value>div>div.modal-content>div.modal-header>h3>img {
+  width: 35px;
+  height: 35px;
+  float: left;
+}
+div#mdl-grading-value div#table-grading-value {
+  overflow-x: auto;
+}
+div#mdl-grading-value div#table-grading-value>table th {
+  background-color: rgba(30,66,104,0.9);
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-grading-value div#table-grading-value>table td {
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-grading-value .table-hover tbody tr:hover td {
+  color: rgb(0,16,24); 
+}
+div#mdl-grading-value .modal-body>div {
+  margin-bottom: 10px;
+}
+div#mdl-grading-value .modal-body>div>img {
+  width: 37px;
+  height: 37px;
+}
+div#mdl-grading-value .modal-body>div>img:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+div#mdl-grading-value .modal-body>div>input {
+  width: 200px;
+}
+
+div#mdl-new-grading>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-new-grading table {
+  width: 100%;
+}
+div#mdl-new-grading table td {
+  height: 50px;
+}
+div#mdl-new-grading>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-new-grading>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-new-grading .modal-footer {
+  text-align: center;
+}
+div#mdl-new-grading .modal-footer>button {
+  width: 30%;
+}
+
+div#mdl-delete-grading>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-delete-grading table {
+  width: 100%;
+  margin-top: 10px;
+}
+div#mdl-delete-grading table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-delete-grading table tr>td {
+  text-align: center;
+}
+div#mdl-delete-grading>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-delete-grading>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-delete-grading .modal-footer {
+  text-align: center;
+}
+div#mdl-delete-grading .modal-footer>button {
+  width: 30%;
+}
+div#mdl-delete-grading td {
+  width: 50%;
+}
+
+div#mdl-edit-grading>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-edit-grading table {
+  width: 100%;
+}
+div#mdl-edit-grading table td {
+  height: 50px;
+}
+div#mdl-edit-grading>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-edit-grading>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-edit-grading .modal-footer {
+  text-align: center;
+}
+div#mdl-edit-grading .modal-footer>button {
+  width: 30%;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * M O D A L   R O L E   A C C E S S * * * */
+
+div#mdl-role-access>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-role-access>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-role-access>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-role-access>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-role-access>div>div.modal-content>div.modal-header>h3>img {
+  width: 27.88px;
+  height: 35px;
+  float: left;
+}
+div#mdl-role-access div#table-role-access {
+  overflow-x: auto;
+}
+div#mdl-role-access div#table-role-access>table th {
+  background-color: rgba(30,66,104,0.9);
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-role-access div#table-role-access>table td {
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-role-access .table-hover tbody tr:hover td {
+  color: rgb(0,16,24); 
+}
+div#mdl-role-access .modal-body>div {
+  margin-bottom: 10px;
+}
+div#mdl-role-access .modal-body>div>img {
+  width: 37px;
+  height: 37px;
+}
+div#mdl-role-access .modal-body>div>img:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+div#mdl-role-access .modal-body>div>input {
+  width: 200px;
+}
+
+div#mdl-new-user>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-new-user table {
+  width: 100%;
+}
+div#mdl-new-user table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-new-user table tr>td {
+  text-align: center;
+}
+div#mdl-new-user>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-new-user>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-new-user .modal-footer {
+  text-align: center;
+}
+div#mdl-new-user .modal-footer>button {
+  width: 30%;
+}
+table#table-role-dtl td {
+  width: 50%;
+}
+table#table-role-dtl input {
+  float: right;
+}
+
+div#mdl-delete-user>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-delete-user table {
+  width: 100%;
+  margin-top: 10px;
+}
+div#mdl-delete-user table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-delete-user table tr>td {
+  text-align: center;
+}
+div#mdl-delete-user>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-delete-user>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-delete-user .modal-footer {
+  text-align: center;
+}
+div#mdl-delete-user .modal-footer>button {
+  width: 30%;
+}
+div#mdl-delete-user td {
+  width: 50%;
+}
+
+div#mdl-edit-user>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-edit-user table {
+  width: 100%;
+}
+div#mdl-edit-user table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-edit-user table tr>td {
+  text-align: center;
+}
+div#mdl-edit-user>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-edit-user>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-edit-user .modal-footer {
+  text-align: center;
+}
+div#mdl-edit-user .modal-footer>button {
+  width: 30%;
+}
+div#mdl-edit-user td {
+  width: 50%;
+}
+div#mdl-edit-user .modal-body>div>table:last-child td {
+  width: 50%;
+}
+div#mdl-edit-user .modal-body>div>table:last-child input {
+  float: right;
+}
+
+div#mdl-confirm>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-confirm>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-confirm>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * M O D A L   P A R A M   A U D I T * * * */
+
+div#mdl-param-audit>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-param-audit>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-param-audit>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-param-audit>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-param-audit>div>div.modal-content>div.modal-header>h3>img {
+  width: 37.01px;
+  height: 35px;
+  float: left;
+}
+div#mdl-param-audit div#table-param-audit {
+  overflow-x: auto;
+}
+div#mdl-param-audit div#table-param-audit>table th {
+  background-color: rgba(30,66,104,0.9);
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-param-audit div#table-param-audit>table td {
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-param-audit .table-hover tbody tr:hover td {
+  color: rgb(0,16,24); 
+}
+div#mdl-param-audit .modal-body>div {
+  margin-bottom: 10px;
+}
+div#mdl-param-audit .modal-body>div>img {
+  width: 37px;
+  height: 37px;
+}
+div#mdl-param-audit .modal-body>div>img:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+div#mdl-param-audit .modal-body>div>input {
+  width: 200px;
+}
+
+div#mdl-new-param>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-new-param table {
+  width: 100%;
+}
+div#mdl-new-param table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-new-param table tr>td {
+  text-align: center;
+}
+div#mdl-new-param>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-new-param>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-new-param .modal-footer {
+  text-align: center;
+}
+div#mdl-new-param .modal-footer>button {
+  width: 30%;
+}
+
+div#mdl-edit-param>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-edit-param table {
+  width: 100%;
+}
+div#mdl-edit-param>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-edit-param>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-edit-param .modal-footer {
+  text-align: center;
+}
+div#mdl-edit-param .modal-footer>button {
+  width: 30%;
+}
+div#mdl-edit-param td:first-child {
+  width: 35%;
+  height: 50px;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * D I A G R A M   F L O W * * * */
+
+.node circle {
+  fill: #fff;
+}
+.node text {
+        font-family: sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+        /*transform: translate(10px,20px);
+	text-decoration: underline;*/
+}
+.node rect {
+	fill: orange;
+	fill-opacity: 1;
+}
+.node polygon {
+        fill: lightblue;
+}
+path.link {
+	fill: none;
+	stroke: lightblue;
+	stroke-width: 1.5px;
+        transform: translate(5px,10px);
+}
+div.tooltip {
+	position: absolute;
+	text-align: left; 
+	padding: 2px;
+	font: 10px sans-serif;
+	background: lightsteelblue;
+	border: 5px;
+	border-radius: 8px;
+}
+div.linktip {
+	position: absolute;
+}
+
+div#mdl-diag-flow>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-diag-flow>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-diag-flow>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-diag-flow>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-diag-flow>div>div.modal-content>div.modal-header>h3>img {
+  width: 35px;
+  height: 35px;
+  float: left;
+}
+div#mdl-diag-flow .modal-body>div#flow-data {
+  width: 100%;
+  background-color: orange;
+  margin-bottom: 10px;
+}
+div#mdl-diag-flow .modal-body>div#flow-data>span {
+  color: black;
+  margin-left: 5px;
+}
+div#mdl-diag-flow .modal-body>div#flow-data-header table {
+  margin-left: 5px;
+  width: 100%;
+  table-layout: fixed;
+}
+div#mdl-diag-flow .modal-body>div#flow-data-header td {
+  color: black;
+  text-align: center;
+  background-color: orange;
+  width: 190px;
+  border-right: rgba(0,16,24,0.9) solid 10px;  
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+/* * * * L O G   M O N I T O R * * * */
+
+div#mdl-log-monitor>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-log-monitor>div>div.modal-content>div.modal-header>h3 {
+  text-align: center;
+}
+div#mdl-log-monitor>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-log-monitor>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-log-monitor>div>div.modal-content>div.modal-header>h3>img {
+  width: 35.52px;
+  height: 35px;
+  float: left;
+}
+div#mdl-log-monitor div#table-log-monitor {
+  overflow-x: auto;
+}
+div#mdl-log-monitor div#table-log-monitor>table th {
+  background-color: rgba(30,66,104,0.9);
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-log-monitor div#table-log-monitor>table td {
+  white-space: nowrap;
+  text-align: center;
+}
+div#mdl-log-monitor .table-hover tbody tr:hover td {
+  color: rgb(0,16,24); 
+}
+
+div#mdl-run-job>div>div.modal-content {
+  background-color: rgba(0,16,24,0.9);
+}
+div#mdl-run-job>div>div.modal-content>div.modal-header>button.close {
+  color: red;
+  opacity: 0.6;
+}
+div#mdl-run-job>div>div.modal-content>div.modal-header>button.close:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+div#mdl-run-job .modal-footer {
+  text-align: center;
+}
+div#mdl-run-job .modal-footer>button {
+  width: 30%;
+}
+div#mdl-run-job table {
+  margin-top: 10px;
+}
+div#mdl-run-job table tr>th {
+  text-align: center;
+  background-color: #37b;
+}
+div#mdl-run-job table tr>td {
+  text-align: center;
+  font-size: 10px;
+}

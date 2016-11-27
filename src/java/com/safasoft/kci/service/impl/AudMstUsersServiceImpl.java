@@ -9,6 +9,7 @@ package com.safasoft.kci.service.impl;
 import com.safasoft.kci.bean.AudMstUsers;
 import com.safasoft.kci.dao.AudMstUsersDAO;
 import com.safasoft.kci.service.AudMstUsersService;
+import com.safasoft.kci.util.GlobalIntVariable;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,19 @@ public class AudMstUsersServiceImpl implements AudMstUsersService {
 
   @Autowired
   private AudMstUsersDAO audMstUsersDAO;
+  private final int resultPerPage = GlobalIntVariable.RESULT_PER_PAGE.getVar();
+
+  @Override
+  @Transactional(readOnly=false)
+  public AudMstUsers save(AudMstUsers user) {
+    return audMstUsersDAO.save(user);
+  }
+
+  @Override
+  @Transactional(readOnly=false)
+  public AudMstUsers delete(AudMstUsers user) {
+    return audMstUsersDAO.delete(user);
+  }
 
   @Override
   public AudMstUsers getById(int id) {
@@ -38,5 +52,35 @@ public class AudMstUsersServiceImpl implements AudMstUsersService {
   @Override
   public AudMstUsers getByUserName(String userName) {
     return audMstUsersDAO.getByUserName(userName);
+  }
+
+  @Override
+  public List<AudMstUsers> getByPage(int pageNo) {
+    return audMstUsersDAO.getByRange((pageNo - 1) * resultPerPage, resultPerPage);
+  }
+
+  @Override
+  public List<AudMstUsers> getByPageNameAndRole(String emplNamePattern, int roleId, int pageNo) {
+    return audMstUsersDAO.getByRangeNameAndRole(emplNamePattern, roleId, (pageNo - 1) * resultPerPage, resultPerPage);
+  }
+
+  @Override
+  public int count() {
+    return audMstUsersDAO.count();
+  }
+
+  @Override
+  public int count(String emplNamePattern, int roleId) {
+    return audMstUsersDAO.count(emplNamePattern, roleId);
+  }
+
+  @Override
+  public List<AudMstUsers> getByPageName(String emplNamePattern, int pageNo) {
+    return audMstUsersDAO.getByRangeName(emplNamePattern, (pageNo - 1) * resultPerPage, resultPerPage);
+  }
+
+  @Override
+  public int count(String emplNamePattern) {
+    return audMstUsersDAO.count(emplNamePattern);
   }
 }

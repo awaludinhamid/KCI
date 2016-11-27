@@ -26,9 +26,9 @@ public class AudMstGrade implements Serializable {
   @Column(name="GRADE_NAME")
   private String gradeName;
   @Column(name="BATAS_BAWAH")
-  private String batasBawah;
+  private double batasBawah;
   @Column(name="BATAS_ATAS")
-  private String batasAtas;
+  private double batasAtas;
 
   /**
    * @return the gradeId
@@ -61,28 +61,28 @@ public class AudMstGrade implements Serializable {
   /**
    * @return the batasBawah
    */
-  public String getBatasBawah() {
+  public double getBatasBawah() {
     return batasBawah;
   }
 
   /**
    * @param batasBawah the batasBawah to set
    */
-  public void setBatasBawah(String batasBawah) {
+  public void setBatasBawah(double batasBawah) {
     this.batasBawah = batasBawah;
   }
 
   /**
    * @return the batasAtas
    */
-  public String getBatasAtas() {
+  public double getBatasAtas() {
     return batasAtas;
   }
 
   /**
    * @param batasAtas the batasAtas to set
    */
-  public void setBatasAtas(String batasAtas) {
+  public void setBatasAtas(double batasAtas) {
     this.batasAtas = batasAtas;
   }
 }

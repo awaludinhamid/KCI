@@ -19,7 +19,7 @@ $(document).ready(function() {
   $("div#user-menu>div.dropdown>ul>li#home-btn").show();
   //alert("ok");
   $("div#side-menu>div, div.title-dashboard>img, div#gauge>svg").click(function() {
-    $("div#mdl-dashboard").modal("show");
+    $("div#mdl-message").modal("show");
   });
   
   

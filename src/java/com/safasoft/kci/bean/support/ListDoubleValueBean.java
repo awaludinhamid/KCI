@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author awal
  */
 @Entity
-public class ListValueBean implements Serializable {
+public class ListDoubleValueBean implements Serializable {
 
   @Id
   @Column(name="CODE")

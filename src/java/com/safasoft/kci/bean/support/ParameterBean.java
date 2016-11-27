@@ -23,6 +23,8 @@ public class ParameterBean implements Serializable {
   private String parameterId;
   @Column(name="PARAMETER_DESC")
   private String parameterDesc;
+  @Column(name="TABLE_KCI")
+  private String tableKci;
   @Column(name="MEASUREMENT_P1")
   private int measurementP1;
   @Column(name="MEASUREMENT_P2")
@@ -162,5 +164,19 @@ public class ParameterBean implements Serializable {
    */
   public void setPersenMeasurementP3(double persenMeasurementP3) {
     this.persenMeasurementP3 = persenMeasurementP3;
+  }
+
+  /**
+   * @return the tableKci
+   */
+  public String getTableKci() {
+    return tableKci;
+  }
+
+  /**
+   * @param tableKci the tableKci to set
+   */
+  public void setTableKci(String tableKci) {
+    this.tableKci = tableKci;
   }
 }
